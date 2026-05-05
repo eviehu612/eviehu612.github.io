@@ -1,0 +1,84 @@
+<style>
+  .blog-post {
+    max-width: 640px;
+    padding: 12px 8px 40px;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 1.15rem;
+    line-height: 1.85;
+    color: #4a4a52;
+  }
+  .blog-post h1 {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 1.4em;
+  }
+  .blog-post h2 {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    font-style: italic;
+    margin: 2.2em 0 0.8em;
+    color: #6b7280;
+  }
+  .blog-post p {
+    margin-bottom: 1.3em;
+  }
+  .blog-post a {
+    color: #4a4a52;
+  }
+  .blog-post ol {
+    margin: 0.5em 0 1.3em 1.4em;
+    padding: 0;
+  }
+  .blog-post ol li {
+    margin-bottom: 0.7em;
+    line-height: 1.75;
+  }
+  .blog-post ul {
+    margin: 0.5em 0 1.3em 1.4em;
+    padding: 0;
+    list-style-type: disc;
+  }
+  .blog-post ul li {
+    margin-bottom: 0.7em;
+    line-height: 1.75;
+  }
+</style>
+
+<div class="blog-post">
+
+<h1>Model Organisms and the Capabilities Curve</h1>
+
+<p>Safety research urgently needs to keep up with, or surpass, the capabilities curve. Here are some quick thoughts on model organisms as an effective means of doing this. How feasible is it to make model organisms of different threat models and conditions? How much can we extrapolate from safety research performed on model organisms?</p>
+
+<h2>Two Things You Might Want</h2>
+
+<p>There are two distinct things you might want from model organisms:</p>
+
+<ol>
+  <li><strong>Existence proofs:</strong> Can this failure mode even occur? Does the threat model make sense?</li>
+  <li><strong>Quantitative extrapolation:</strong> How bad will it be at scale?</li>
+</ol>
+
+<p>Model organisms are much better at (1) than (2). The history of safety research is littered with cases where a phenomenon was demonstrated at small scale but its scaling behavior was completely wrong in both directions. Sometimes things get safer at scale (many jailbreaks), sometimes dramatically more dangerous (deceptive alignment may be a capability that requires sufficient world-modeling).</p>
+
+<h2>Threat Models That Don't Extrapolate Well</h2>
+
+<p>For most threat models, I think model organisms are unreliable or may not extrapolate well. Specifically:</p>
+
+<ul>
+  <li>Instrumental convergence phenomena (self-preservation, deception, corrigibility failures) are theorized to emerge from sufficient goal-directedness, which may require a capability threshold small models don't hit.</li>
+  <li>Situational awareness may be bottlenecked by world-modeling ability.</li>
+  <li>CoT unfaithfulness as a strategic behavior requires the model to model the monitor.</li>
+</ul>
+
+<p>For these cases, model organisms could give us the behavioral patterns but would lack the mechanistic properties that actually make the threat impactful. So these things might be useful for building detectors and benchmarks, but don't mistake any quantitative findings from model organisms for predictions about frontier behavior.</p>
+
+<h2>Where Model Organisms Actually Help</h2>
+
+<p>Another place where model organisms might actually be useful is when the phenomenon is capability-independent. For example, steganographic channel capacity, data poisoning injection rates, or benchmark gaming from training data contamination. These are the areas where small-scale safety research might just be able to stay near or get ahead of the capabilities curve.</p>
+
+<p><a href="#blog">← Back to Blog</a></p>
+
+</div>
