@@ -17,10 +17,11 @@
 </head>
 <body>
   <nav>
-    <a href="#home">Home</a>
-    <a href="#about">About Me</a>
-    <a href="#blog">Blog</a>
-    <a href="#projects">Projects</a>
+    <a href="#home" style="--glow: rgb(186 230 253)">Home</a>
+    <a href="#about" style="--glow: rgb(251 207 232)">About Me</a>
+    <a href="#blog" style="--glow: rgb(233 213 255)">Blog</a>
+    <a href="#projects" style="--glow: rgb(187 247 208)">Projects</a>
+    <a href="#things-i-like" style="--glow: rgb(254 240 138)">Things I Like</a>
   </nav>
 
   <div id="home" class="tab active">
@@ -41,9 +42,10 @@
       <div class="about-text">
         <h1>About Me</h1>
         <p>Hey there! Welcome to my website. I'm a student at the University of Chicago studying computer science and philosophy.</p>
-        <p>I'm interested in AI safety — model (mis)alignment, mechanistic interpretability, governance — as well as art history, Latin, and numbered icosahedrons.</p>
+        <p>I'm interested in AI safety — model (mis)alignment, control, governance — as well as art history, Latin, and numbered icosahedrons.</p>
         <p>If you have a cool idea or just want to chat, reach out or <a href="https://calendly.com/eviehu612">schedule a meeting.</a></p>
-        <!--  https://www.admonymous.co/evie-hu -->
+        <h2>Feedback</h2>
+        <p>I believe one of the best ways to grow is to surround yourself with people who can catch you in your blindspots. If you notice something I could improve, I'd love to hear it. If you'd prefer to share feedback anonymously, you can do so <a href="https://www.admonymous.co/evie-hu">here</a>.</p>
       </div>
     </div>
   </div>
@@ -52,13 +54,7 @@
     <h1>Blog</h1>
     <p>Here are some posts about things I've been thinking about or things that interest me.</p>
     <div class="card-grid">
-      <a href="#post-poems" class="card" style="--glow: rgb(233 213 255)">
-        <span class="card-plus">+</span>
-        <h2>Poems I Like</h2>
-        <p>A collection of poems that have resonated with me.</p>
-        <span class="card-tag">poetry</span>
-      </a>
-<a href="#post-welcome-to-blog" class="card" style="--glow: rgb(253 186 116)">
+      <a href="#post-welcome-to-blog" class="card" style="--glow: rgb(253 186 116)">
         <span class="card-plus">+</span>
         <h2>Welcome to My Blog</h2>
         <p>Misc thoughts about writing.</p>
@@ -78,12 +74,6 @@
         <span class="card-tag">philosophy</span>
         <span class="card-tag">essay</span>
       </a>
-      <a href="#post-art" class="card" style="--glow: rgb(251 207 232)">
-        <span class="card-plus">+</span>
-        <h2>Some Art I Made</h2>
-        <p>A couple of pieces I've made.</p>
-        <span class="card-tag">art</span>
-      </a>
       <a href="#post-model-organisms" class="card" style="--glow: rgb(209 250 229)">
         <span class="card-plus">+</span>
         <h2>Model Organisms and the Capabilities Curve</h2>
@@ -96,15 +86,11 @@
 
   <div id="post-interests" class="tab" data-src="blogs/interests.html"></div>
 
-<div id="post-poems" class="tab" data-src="blogs/poems.html"></div>
-
   <div id="post-welcome-to-blog" class="tab" data-src="blogs/welcome-to-blog.html"></div>
 
   <div id="post-safety-opportunities" class="tab" data-src="blogs/safety-opportunities.html"></div>
 
   <div id="post-platos-dilemma" class="tab" data-src="blogs/platos-dilemma.html"></div>
-
-  <div id="post-art" class="tab" data-src="blogs/art.html"></div>
 
   <div id="post-model-organisms" class="tab" data-src="blogs/model-organisms.html"></div>
 
@@ -124,6 +110,12 @@
         <p>Built for the 2025 NASA Space Apps Challenge. An AI-powered research exploration platform.</p>
         <span class="card-tag">web</span>
         <span class="card-tag">ML</span>
+      </a>
+      <a href="#project-art" class="card" style="--glow: rgb(251 207 232)">
+        <span class="card-plus">+</span>
+        <h2>Drawings 2025</h2>
+        <p>A couple of pieces I've made.</p>
+        <span class="card-tag">art</span>
       </a>
       <a href="#project-language" class="card" style="--glow: rgb(221 214 254)">
         <span class="card-plus">+</span>
@@ -163,6 +155,10 @@
   <div id="project-finance" class="tab" data-src="projects/finance.html"></div>
 
   <div id="project-covert-collude" class="tab" data-src="projects/covert-collude.html"></div>
+
+  <div id="project-art" class="tab" data-src="projects/art.html"></div>
+
+  <div id="things-i-like" class="tab" data-src="things-i-like.html"></div>
 
 </body>
 </html>

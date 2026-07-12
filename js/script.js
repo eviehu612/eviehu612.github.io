@@ -3,6 +3,13 @@ function showTab(name) {
   const el = document.getElementById(name);
   if (!el) return;
   el.classList.add('active');
+
+  // highlight the nav tab for the current section (posts → Blog, projects → Projects)
+  const section = name.startsWith('post-') ? 'blog'
+                : name.startsWith('project-') ? 'projects'
+                : name;
+  document.querySelectorAll('nav a').forEach(a =>
+    a.classList.toggle('active', a.getAttribute('href') === '#' + section));
   const src = el.getAttribute('data-src');
   if (src && el.innerHTML.trim() === '') {
     fetch(src)
@@ -34,29 +41,48 @@ showTab(location.hash.slice(1) || 'home');
 // ── About page decorative grid ──
 (function initAboutDeco() {
   const panel = document.getElementById('about-deco');
-  if (!panel) return;
+  const text = document.querySelector('.about-text');
+  if (!panel || !text) return;
 
-  const cols = 9, rows = 16;
+  const cols = 9, cellSize = 22, baseRows = 16;
   const colors = [
     'rgb(186 230 253)', 'rgb(251 207 232)', 'rgb(187 247 208)',
     'rgb(254 240 138)', 'rgb(254 202 202)', 'rgb(233 213 255)',
     'rgb(191 219 254)', 'rgb(199 210 254)', 'rgb(221 214 254)'
   ];
 
-  // bar heights per column (out of `rows`)
-  const heights = [7, 11, 5, 14, 9, 6, 13, 8, 10];
+  // bar heights per column (out of `baseRows`, scaled to the actual row count)
+  const baseHeights = [7, 11, 5, 14, 9, 6, 13, 8, 10];
 
-  let html = '';
-  for (let c = 0; c < cols; c++) {
-    html += '<div class="deco-col">';
-    for (let r = 0; r < rows; r++) {
-      const filled = r >= rows - heights[c];
-      const style = filled ? `background:${colors[c % colors.length]}` : '';
-      html += `<div class="deco-cell" style="${style}"></div>`;
+  let rows = 0;
+
+  function build() {
+    let html = '';
+    for (let c = 0; c < cols; c++) {
+      const barHeight = Math.max(1, Math.round(baseHeights[c] * rows / baseRows));
+      html += '<div class="deco-col">';
+      for (let r = 0; r < rows; r++) {
+        const filled = r >= rows - barHeight;
+        const style = filled ? `background:${colors[c % colors.length]}` : '';
+        html += `<div class="deco-cell" style="${style}"></div>`;
+      }
+      html += '</div>';
     }
-    html += '</div>';
+    panel.innerHTML = html;
   }
-  panel.innerHTML = html;
+
+  // match the grid height to the text column; the tab is display:none at
+  // load, so the observer builds it once the tab first becomes visible
+  function sync() {
+    const target = Math.round(text.offsetHeight / cellSize);
+    if (target > 0 && target !== rows) {
+      rows = target;
+      build();
+    }
+  }
+
+  new ResizeObserver(sync).observe(text);
+  sync();
 
   panel.addEventListener('mouseover', e => {
     const cell = e.target.closest('.deco-cell');

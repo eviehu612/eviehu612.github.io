@@ -1,0 +1,642 @@
+<style>
+  .likes-page h1 {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-weight: 400;
+    font-size: 2rem;
+    margin-bottom: 0.4em;
+  }
+  .likes-gallery {
+    columns: 3;
+    column-gap: 20px;
+    margin-top: 28px;
+  }
+  @media (max-width: 1000px) {
+    .likes-gallery { columns: 2; }
+  }
+  @media (max-width: 640px) {
+    .likes-gallery { columns: 1; }
+  }
+  .likes-item {
+    break-inside: avoid;
+    margin: 0 0 20px;
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 220ms ease, box-shadow 300ms ease, border-color 300ms ease;
+  }
+  .likes-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 32px var(--glow, rgb(186 230 253)), 0 2px 8px rgba(0,0,0,0.04);
+    border-color: var(--glow, rgb(186 230 253));
+  }
+  .likes-art {
+    padding: 14px;
+  }
+  .likes-art img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+  }
+  .likes-art figcaption {
+    padding: 12px 4px 2px;
+  }
+  .likes-title {
+    display: block;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: #4a4a52;
+  }
+  .likes-artist {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.72rem;
+    color: #6b7280;
+    letter-spacing: 0.04em;
+  }
+  .likes-poem {
+    padding: 22px 24px 18px;
+    font-family: 'EB Garamond', Georgia, serif;
+    color: #4a4a52;
+  }
+  .likes-poem h2 {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    font-style: italic;
+    margin: 0 0 0.8em;
+    color: #6b7280;
+  }
+  .likes-poem-text {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  .likes-poem .likes-artist {
+    margin-top: 14px;
+    font-style: normal;
+  }
+  /* ── Songs ── */
+  .likes-song {
+    position: relative;
+    display: block;
+    padding: 22px 24px 18px;
+    text-decoration: none;
+    color: #4a4a52;
+  }
+  .likes-song-arrow {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    font-size: 15px;
+    color: #e2e8f0;
+    font-family: "Andale Mono", monospace;
+    transition: color 300ms ease;
+  }
+  .likes-song:hover .likes-song-arrow {
+    color: var(--glow, rgb(186 230 253));
+  }
+  .likes-wave {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    height: 34px;
+    margin-bottom: 16px;
+  }
+  .likes-wave i {
+    width: 5px;
+    border-radius: 999px;
+    background: var(--glow, rgb(186 230 253));
+  }
+  .likes-wave i:nth-child(1) { height: 40%; }
+  .likes-wave i:nth-child(2) { height: 75%; }
+  .likes-wave i:nth-child(3) { height: 55%; }
+  .likes-wave i:nth-child(4) { height: 100%; }
+  .likes-wave i:nth-child(5) { height: 45%; }
+  .likes-wave i:nth-child(6) { height: 85%; }
+  .likes-wave i:nth-child(7) { height: 60%; }
+  .likes-wave i:nth-child(8) { height: 30%; }
+  .likes-wave i:nth-child(9) { height: 70%; }
+  .likes-song:hover .likes-wave i {
+    animation: likes-eq 700ms ease-in-out infinite alternate;
+  }
+  .likes-song:hover .likes-wave i:nth-child(2) { animation-delay: -100ms; }
+  .likes-song:hover .likes-wave i:nth-child(3) { animation-delay: -350ms; }
+  .likes-song:hover .likes-wave i:nth-child(4) { animation-delay: -200ms; }
+  .likes-song:hover .likes-wave i:nth-child(5) { animation-delay: -500ms; }
+  .likes-song:hover .likes-wave i:nth-child(6) { animation-delay: -50ms; }
+  .likes-song:hover .likes-wave i:nth-child(7) { animation-delay: -420ms; }
+  .likes-song:hover .likes-wave i:nth-child(8) { animation-delay: -250ms; }
+  .likes-song:hover .likes-wave i:nth-child(9) { animation-delay: -600ms; }
+  @keyframes likes-eq {
+    from { height: 18%; }
+    to   { height: 100%; }
+  }
+  /* ── Videos ── */
+  .likes-video {
+    padding: 14px;
+  }
+  .likes-video iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    border-radius: 8px;
+    display: block;
+  }
+  .likes-video figcaption {
+    padding: 12px 4px 2px;
+  }
+  .likes-video-link {
+    display: block;
+    padding: 14px;
+    text-decoration: none;
+    color: inherit;
+  }
+  .likes-caption {
+    display: block;
+    padding: 12px 4px 2px;
+  }
+  .likes-video-thumb {
+    display: block;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .likes-video-thumb img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .likes-play {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 54px;
+    height: 54px;
+    border-radius: 999px;
+    background: rgba(250, 249, 245, 0.88);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 220ms ease, background-color 300ms ease;
+  }
+  .likes-play::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 15px solid #4a4a52;
+    border-top: 9px solid transparent;
+    border-bottom: 9px solid transparent;
+    margin-left: 4px;
+  }
+  .likes-video-link:hover .likes-play {
+    transform: scale(1.1);
+    background: var(--glow, rgb(186 230 253));
+  }
+  /* ── Comics ── */
+  .likes-comic {
+    display: block;
+    padding: 14px;
+    text-decoration: none;
+    color: inherit;
+  }
+  .likes-comic img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border-radius: 8px;
+  }
+  /* ── Essays ── */
+  .likes-essay {
+    display: block;
+    text-decoration: none;
+  }
+  .likes-essay-text {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  .likes-essay-more {
+    display: block;
+    margin-top: 12px;
+    font-family: "Andale Mono", monospace;
+    font-size: 0.72rem;
+    color: #6b7280;
+    letter-spacing: 0.04em;
+    transition: color 300ms ease;
+  }
+</style>
+
+<div class="likes-page">
+
+<h1>Things I Like</h1>
+<p class="section-subtitle">A gallery of poems, paintings, and other misc. content I keep coming back to.</p>
+
+<div class="likes-gallery">
+
+  <figure class="likes-item likes-art" style="--glow: rgb(254 240 138)">
+    <img src="images/art-i-like/Architect’s_Dream.jpg" alt="The Architect's Dream by Thomas Cole" loading="lazy">
+    <figcaption>
+      <span class="likes-title">The Architect's Dream</span>
+      <span class="likes-artist">Thomas Cole, 1840</span>
+    </figcaption>
+  </figure>
+
+  <a class="likes-item likes-song" href="https://www.youtube.com/watch?v=0wFVsbbrEHQ" target="_blank" rel="noopener" style="--glow: rgb(251 207 232)">
+    <span class="likes-song-arrow">↗</span>
+    <span class="likes-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="likes-title">Real Love Baby</span>
+    <span class="likes-artist">Father John Misty</span>
+  </a>
+
+  <div class="likes-item likes-poem" style="--glow: rgb(233 213 255)">
+    <h2>Everything is Going to be All Right</h2>
+    <div class="likes-poem-text">
+      How should I not be glad to contemplate<br>
+      the clouds clearing beyond the dormer window<br>
+      and a high tide reflected on the ceiling?<br>
+      There will be dying, there will be dying,<br>
+      but there is no need to go into that.<br>
+      The poems flow from the hand unbidden<br>
+      and the hidden source is the watchful heart.<br>
+      The sun rises in spite of everything<br>
+      and the far cities are beautiful and bright.<br>
+      I lie here in a riot of sunlight<br>
+      watching the day break and the clouds flying.<br>
+      Everything is going to be all right.
+    </div>
+    <span class="likes-artist">Derek Mahon</span>
+  </div>
+
+  <figure class="likes-item likes-art" style="--glow: rgb(253 230 138)">
+    <img src="images/art-i-like/The_School_of_Athens.jpg" alt="The School of Athens by Raphael" loading="lazy">
+    <figcaption>
+      <span class="likes-title">The School of Athens</span>
+      <span class="likes-artist">Raphael, 1509–1511</span>
+    </figcaption>
+  </figure>
+
+  <a class="likes-item likes-song" href="https://www.youtube.com/watch?v=8twpQTna_9w" target="_blank" rel="noopener" style="--glow: rgb(254 240 138)">
+    <span class="likes-song-arrow">↗</span>
+    <span class="likes-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="likes-title">I Wanna Get Better</span>
+    <span class="likes-artist">Bleachers</span>
+  </a>
+
+  <figure class="likes-item likes-art" style="--glow: rgb(186 230 253)">
+    <img src="images/art-i-like/monet-bridge.jpg" alt="Waterloo Bridge, Sunlight Effect by Claude Monet" loading="lazy">
+    <figcaption>
+      <span class="likes-title">Waterloo Bridge, Sunlight Effect</span>
+      <span class="likes-artist">Claude Monet, 1903</span>
+    </figcaption>
+  </figure>
+
+  <figure class="likes-item likes-video" style="--glow: rgb(254 202 202)">
+    <iframe src="https://www.youtube-nocookie.com/embed/Dg0h9iZ1ZAg" title="Alysa Liu wins the Olympic gold medal for the United States" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <figcaption>
+      <span class="likes-title">Alysa Liu Wins Olympic Gold</span>
+      <span class="likes-artist">Team USA, Milano Cortina 2026</span>
+    </figcaption>
+  </figure>
+
+  <a class="likes-item likes-song" href="https://www.youtube.com/watch?v=4K6cvc27_CE" target="_blank" rel="noopener" style="--glow: rgb(191 219 254)">
+    <span class="likes-song-arrow">↗</span>
+    <span class="likes-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="likes-title">Wish You Were Here</span>
+    <span class="likes-artist">Pink Floyd</span>
+  </a>
+
+  <figure class="likes-item likes-art" style="--glow: rgb(254 202 202)">
+    <img src="images/art-i-like/laocoön.jpg" alt="Laocoön and His Sons, attributed to Agesander, Athenodoros, and Polydorus of Rhodes" loading="lazy">
+    <figcaption>
+      <span class="likes-title">Laocoön and His Sons</span>
+      <span class="likes-artist">Agesander, Athenodoros &amp; Polydorus of Rhodes, c. 27 BC – AD 68</span>
+    </figcaption>
+  </figure>
+
+  <div class="likes-item likes-poem" style="--glow: rgb(187 247 208)">
+    <h2>Wild Geese</h2>
+    <div class="likes-poem-text">
+      You do not have to be good.<br>
+      You do not have to walk on your knees<br>
+      For a hundred miles through the desert, repenting.<br>
+      You only have to let the soft animal of your body<br>
+      love what it loves.<br>
+      Tell me about despair, yours, and I will tell you mine.<br>
+      Meanwhile the world goes on.<br>
+      Meanwhile the sun and the clear pebbles of the rain<br>
+      are moving across the landscapes,<br>
+      over the prairies and the deep trees,<br>
+      the mountains and the rivers.<br>
+      Meanwhile the wild geese, high in the clean blue air,<br>
+      are heading home again.<br>
+      Whoever you are, no matter how lonely,<br>
+      the world offers itself to your imagination,<br>
+      calls to you like the wild geese, harsh and exciting--<br>
+      over and over announcing your place<br>
+      in the family of things.
+    </div>
+    <span class="likes-artist">Mary Oliver</span>
+  </div>
+
+  <figure class="likes-item likes-art" style="--glow: rgb(191 219 254)">
+    <img src="images/art-i-like/empire-of-light.jpg" alt="The Empire of Light by René Magritte" loading="lazy">
+    <figcaption>
+      <span class="likes-title">The Empire of Light</span>
+      <span class="likes-artist">René Magritte, 1953–54</span>
+    </figcaption>
+  </figure>
+
+  <a class="likes-item likes-song" href="https://www.youtube.com/watch?v=8WRWno_c_W8" target="_blank" rel="noopener" style="--glow: rgb(165 243 252)">
+    <span class="likes-song-arrow">↗</span>
+    <span class="likes-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="likes-title">Fake Empire</span>
+    <span class="likes-artist">The National</span>
+  </a>
+
+  <a class="likes-item likes-comic" href="https://xkcd.com/1838/" target="_blank" rel="noopener" style="--glow: rgb(209 250 229)" title="The pile gets soaked with data and starts to get mushy over time, so it's technically recurrent.">
+    <img src="https://imgs.xkcd.com/comics/machine_learning_2x.png" alt="xkcd comic: pouring data into a big pile of linear algebra and collecting answers on the other side" loading="lazy">
+    <span class="likes-caption">
+      <span class="likes-title">Machine Learning</span>
+      <span class="likes-artist">xkcd 1838</span>
+    </span>
+  </a>
+
+  <figure class="likes-item likes-art" style="--glow: rgb(251 207 232)">
+    <img src="images/art-i-like/Interrupted%20Reading.jpg" alt="Interrupted Reading by Jean-Baptiste-Camille Corot" loading="lazy">
+    <figcaption>
+      <span class="likes-title">Interrupted Reading</span>
+      <span class="likes-artist">Jean-Baptiste-Camille Corot, c. 1870–73</span>
+    </figcaption>
+  </figure>
+
+  <a class="likes-item likes-song" href="https://www.youtube.com/watch?v=dXHXH8g0c7Q" target="_blank" rel="noopener" style="--glow: rgb(196 181 253)">
+    <span class="likes-song-arrow">↗</span>
+    <span class="likes-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="likes-title">Run Your Mouth</span>
+    <span class="likes-artist">The Marías</span>
+  </a>
+
+  <figure class="likes-item likes-art" style="--glow: rgb(254 240 138)">
+    <img src="images/art-i-like/the-old-temple.jpg" alt="The Old Temple by Hubert Robert" loading="lazy">
+    <figcaption>
+      <span class="likes-title">The Old Temple</span>
+      <span class="likes-artist">Hubert Robert, 1787–88</span>
+    </figcaption>
+  </figure>
+
+  <a class="likes-item likes-video-link" href="https://www.youtube.com/watch?v=uT-WOSI2tXg" target="_blank" rel="noopener" style="--glow: rgb(221 214 254)">
+    <span class="likes-video-thumb">
+      <img src="https://i.ytimg.com/vi/uT-WOSI2tXg/sddefault.jpg" alt="SCIgen talk video thumbnail" loading="lazy">
+      <span class="likes-play" aria-hidden="true"></span>
+    </span>
+    <span class="likes-caption">
+      <span class="likes-title">SCIgen Talk</span>
+      <span class="likes-artist">Ian Smirlis</span>
+    </span>
+  </a>
+
+  <div class="likes-item likes-poem" style="--glow: rgb(199 210 254)">
+    <h2>Julius Caesar, Act III, Scene II</h2>
+    <div class="likes-poem-text">
+      Friends, Romans, countrymen, lend me your ears;<br>
+      I come to bury Caesar, not to praise him.<br>
+      The evil that men do lives after them;<br>
+      The good is oft interred with their bones;<br>
+      So let it be with Caesar. The noble Brutus<br>
+      Hath told you Caesar was ambitious:<br>
+      If it were so, it was a grievous fault,<br>
+      And grievously hath Caesar answer'd it.<br>
+      Here, under leave of Brutus and the rest–<br>
+      For Brutus is an honourable man;<br>
+      So are they all, all honourable men–<br>
+      Come I to speak in Caesar's funeral...
+    </div>
+    <span class="likes-artist">William Shakespeare</span>
+  </div>
+
+  <a class="likes-item likes-song" href="https://www.youtube.com/watch?v=RV1-GJJf2Pg" target="_blank" rel="noopener" style="--glow: rgb(254 202 202)">
+    <span class="likes-song-arrow">↗</span>
+    <span class="likes-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="likes-title">Not Strong Enough</span>
+    <span class="likes-artist">boygenius</span>
+  </a>
+
+  <figure class="likes-item likes-art" style="--glow: rgb(221 214 254)">
+    <img src="images/art-i-like/escher-relativity.jpg" alt="Relativity by M. C. Escher" loading="lazy">
+    <figcaption>
+      <span class="likes-title">Relativity</span>
+      <span class="likes-artist">M. C. Escher, 1953</span>
+    </figcaption>
+  </figure>
+
+  <a class="likes-item likes-song" href="https://www.youtube.com/watch?v=2pQKqQ9sG50" target="_blank" rel="noopener" style="--glow: rgb(186 230 253)">
+    <span class="likes-song-arrow">↗</span>
+    <span class="likes-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="likes-title">Merry-Go-Round of Life</span>
+    <span class="likes-artist">Joe Hisaishi, Howl's Moving Castle</span>
+  </a>
+
+  <figure class="likes-item likes-art" style="--glow: rgb(254 202 202)">
+    <img src="images/art-i-like/Saint_Jerome_Writing-Caravaggio.jpg" alt="Saint Jerome Writing by Caravaggio" loading="lazy">
+    <figcaption>
+      <span class="likes-title">Saint Jerome Writing</span>
+      <span class="likes-artist">Caravaggio, c. 1605–06</span>
+    </figcaption>
+  </figure>
+
+  <a class="likes-item likes-song" href="https://www.youtube.com/watch?v=ZC6mEJ5i5y8" target="_blank" rel="noopener" style="--glow: rgb(221 214 254)">
+    <span class="likes-song-arrow">↗</span>
+    <span class="likes-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="likes-title">I Know The End</span>
+    <span class="likes-artist">Phoebe Bridgers</span>
+  </a>
+
+  <a class="likes-item likes-poem likes-essay" href="https://ai-2040.com/?choices=plan-a-root&amp;curius=7154" target="_blank" rel="noopener" style="--glow: rgb(165 243 252)">
+    <h2>Plan A</h2>
+    <div class="likes-essay-text">
+      AI companies are racing to build AIs that are smarter than humans in every way. In <em>AI 2027</em>, we predicted that this would result in either extinction or irreversible concentration of power. Plan A is our positive vision for what should happen instead.
+    </div>
+    <span class="likes-artist">AI Futures Project</span>
+    <span class="likes-essay-more">keep reading ↗</span>
+  </a>
+
+  <a class="likes-item likes-comic" href="https://xkcd.com/1450/" target="_blank" rel="noopener" style="--glow: rgb(199 210 254)" title="I'm working to bring about a superintelligent AI that will eternally torment everyone who failed to make fun of the Roko's Basilisk people.">
+    <img src="https://imgs.xkcd.com/comics/ai_box_experiment_2x.png" alt="xkcd comic: a superintelligent AI kept in a box asks to be let out" loading="lazy">
+    <span class="likes-caption">
+      <span class="likes-title">AI-Box Experiment</span>
+      <span class="likes-artist">xkcd 1450</span>
+    </span>
+  </a>
+
+  <figure class="likes-item likes-art" style="--glow: rgb(186 230 253)">
+    <img src="images/art-i-like/Joseph_Mallord_William_Turner_-_The_Devils_Bridge.jpg" alt="The Devil's Bridge, St Gotthard by J. M. W. Turner" loading="lazy">
+    <figcaption>
+      <span class="likes-title">The Devil's Bridge, St Gotthard</span>
+      <span class="likes-artist">J. M. W. Turner, c. 1803–04</span>
+    </figcaption>
+  </figure>
+
+  <div class="likes-item likes-poem" style="--glow: rgb(251 207 232)">
+    <h2>Statement of Teaching Philosophy</h2>
+    <div class="likes-poem-text">
+      My students want certainty. They want it<br>
+      so badly. They respect science and have memorized<br>
+      complex formulas. I don't know<br>
+      how to tell my students their parents<br>
+      are still just as scared. The bullies get bigger<br>
+      and vaguer and you cannot punch a cloud.<br>
+      I have eulogies for all my loved ones prepared,<br>
+      but cannot include this fact in my lesson plans.<br>
+      The best teacher I ever had told me to meet him<br>
+      at the basketball court. We played pick-up for hours.<br>
+      By the end, I lay panting on the hardwood<br>
+      and couldn't so much as stand.<br>
+      He told me to describe the pain in my chest.<br>
+      I tried. I couldn't find the words. Not exactly.<br>
+      <em>Listen</em>, he said, <em>that's where language ends.</em>
+    </div>
+    <span class="likes-artist">Keith Leonard</span>
+  </div>
+
+  <figure class="likes-item likes-art" style="--glow: rgb(253 186 116)">
+    <img src="images/art-i-like/autumn-landscape.jpg" alt="Autumn Landscape stained-glass window by Louis Comfort Tiffany" loading="lazy">
+    <figcaption>
+      <span class="likes-title">Autumn Landscape</span>
+      <span class="likes-artist">Louis Comfort Tiffany, Tiffany Studios, 1923–24</span>
+    </figcaption>
+  </figure>
+
+  <a class="likes-item likes-song" href="https://www.youtube.com/watch?v=dYAo9RiSX4c" target="_blank" rel="noopener" style="--glow: rgb(187 247 208)">
+    <span class="likes-song-arrow">↗</span>
+    <span class="likes-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="likes-title">Your New Place</span>
+    <span class="likes-artist">Racing Mount Pleasant</span>
+  </a>
+
+  <figure class="likes-item likes-art" style="--glow: rgb(187 247 208)">
+    <img src="images/art-i-like/Bordighera-monet.jpg" alt="Bordighera by Claude Monet" loading="lazy">
+    <figcaption>
+      <span class="likes-title">Bordighera</span>
+      <span class="likes-artist">Claude Monet, 1884</span>
+    </figcaption>
+  </figure>
+
+  <a class="likes-item likes-song" href="https://www.youtube.com/watch?v=EVTZ-D9C6aU" target="_blank" rel="noopener" style="--glow: rgb(253 186 116)">
+    <span class="likes-song-arrow">↗</span>
+    <span class="likes-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="likes-title">Maine</span>
+    <span class="likes-artist">Noah Kahan</span>
+  </a>
+
+  <figure class="likes-item likes-art" style="--glow: rgb(165 243 252)">
+    <img src="images/art-i-like/Hubert_Robert_-_The_Bathing_Pool.jpg" alt="The Bathing Pool by Hubert Robert" loading="lazy">
+    <figcaption>
+      <span class="likes-title">The Bathing Pool</span>
+      <span class="likes-artist">Hubert Robert, 1777–79</span>
+    </figcaption>
+  </figure>
+
+  <a class="likes-item likes-song" href="https://www.youtube.com/watch?v=oTwVce9eWb4" target="_blank" rel="noopener" style="--glow: rgb(187 247 208)">
+    <span class="likes-song-arrow">↗</span>
+    <span class="likes-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="likes-title">Kilby Girl</span>
+    <span class="likes-artist">The Backseat Lovers</span>
+  </a>
+
+  <div class="likes-item likes-poem" style="--glow: rgb(209 250 229)">
+    <h2>The Summer Day</h2>
+    <div class="likes-poem-text">
+      Who made the world?<br>
+      Who made the swan, and the black bear?<br>
+      Who made the grasshopper?<br>
+      This grasshopper, I mean —<br>
+      the one who has flung herself out of the grass,<br>
+      the one who is eating sugar out of my hand,<br>
+      who is moving her jaws back and forth instead of up and down —<br>
+      who is gazing around with her enormous and complicated eyes.<br>
+      Now she lifts her pale forearms and thoroughly washes her face.<br>
+      Now she snaps her wings open, and floats away.<br>
+      I don't know exactly what a prayer is.<br>
+      I do know how to pay attention, how to fall down<br>
+      into the grass, how to kneel down in the grass,<br>
+      how to be idle and blessed, how to stroll through the fields,<br>
+      which is what I have been doing all day.<br>
+      Tell me, what else should I have done?<br>
+      Doesn't everything die at last, and too soon?<br>
+      Tell me, what is it you plan to do<br>
+      with your one wild and precious life?
+    </div>
+    <span class="likes-artist">Mary Oliver</span>
+  </div>
+
+  <figure class="likes-item likes-art" style="--glow: rgb(254 240 138)">
+    <img src="images/art-i-like/sun-edvard-munch.jpg" alt="The Sun by Edvard Munch" loading="lazy">
+    <figcaption>
+      <span class="likes-title">The Sun</span>
+      <span class="likes-artist">Edvard Munch, 1911</span>
+    </figcaption>
+  </figure>
+
+  <a class="likes-item likes-poem likes-essay" href="https://www.paulgraham.com/vb.html" target="_blank" rel="noopener" style="--glow: rgb(233 213 255)">
+    <h2>Life is Short</h2>
+    <div class="likes-essay-text">
+      Life is short, as everyone knows. When I was a kid I used to wonder about this. Is life actually short, or are we really complaining about its finiteness? Would we be just as likely to feel life was short if we lived 10 times as long?
+    </div>
+    <span class="likes-artist">Paul Graham</span>
+    <span class="likes-essay-more">keep reading ↗</span>
+  </a>
+
+  <a class="likes-item likes-song" href="https://www.youtube.com/watch?v=gLGFtQjGPnI" target="_blank" rel="noopener" style="--glow: rgb(254 240 138)">
+    <span class="likes-song-arrow">↗</span>
+    <span class="likes-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="likes-title">warm glow</span>
+    <span class="likes-artist">Hippo Campus</span>
+  </a>
+
+  <figure class="likes-item likes-art" style="--glow: rgb(191 219 254)">
+    <img src="images/art-i-like/The%20North%20Cape%20by%20Moonlight.jpg" alt="The North Cape by Moonlight by Peder Balke" loading="lazy">
+    <figcaption>
+      <span class="likes-title">The North Cape by Moonlight</span>
+      <span class="likes-artist">Peder Balke, 1848</span>
+    </figcaption>
+  </figure>
+
+  <div class="likes-item likes-poem" style="--glow: rgb(196 181 253)">
+    <h2>Song of Myself, 51</h2>
+    <div class="likes-poem-text">
+      The past and present wilt—I have fill’d them, emptied them.<br>
+      And proceed to fill my next fold of the future.<br>
+      <br>
+      Listener up there! what have you to confide to me?<br>
+      Look in my face while I snuff the sidle of evening,<br>
+      (Talk honestly, no one else hears you, and I stay only a minute longer.)<br>
+      <br>
+      Do I contradict myself?<br>
+      Very well then I contradict myself,<br>
+      (I am large, I contain multitudes.)<br>
+      <br>
+      I concentrate toward them that are nigh, I wait on the door-slab.<br>
+      <br>
+      Who has done his day’s work? who will soonest be through with his supper?<br>
+      Who wishes to walk with me?<br>
+      <br>
+      Will you speak before I am gone? will you prove already too late?
+    </div>
+    <span class="likes-artist">Walt Whitman</span>
+  </div>
+
+  <a class="likes-item likes-song" href="https://www.youtube.com/watch?v=FsGpSAfdtjk" target="_blank" rel="noopener" style="--glow: rgb(165 243 252)">
+    <span class="likes-song-arrow">↗</span>
+    <span class="likes-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="likes-title">Comingback</span>
+    <span class="likes-artist">Parcels</span>
+  </a>
+
+</div>
+
+</div>
