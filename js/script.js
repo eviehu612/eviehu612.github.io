@@ -84,21 +84,46 @@ showTab(location.hash.slice(1) || 'home');
   new ResizeObserver(sync).observe(text);
   sync();
 
+  // the build() pattern color for a given cell
+  function patternColor(col, row) {
+    const barHeight = Math.max(1, Math.round(baseHeights[col] * rows / baseRows));
+    return row >= rows - barHeight ? colors[col % colors.length] : '';
+  }
+
+  // while the mouse is actively moving over the grid, hold off any drift-back
+  let lastMove = 0;
+  panel.addEventListener('mousemove', () => { lastMove = Date.now(); });
+
+  function scheduleDrift(cell, col, row, delay) {
+    clearTimeout(cell._drift);
+    cell._drift = setTimeout(() => {
+      if (Date.now() - lastMove < 500) {
+        scheduleDrift(cell, col, row, 400 + Math.random() * 900);
+        return;
+      }
+      cell.style.transition = 'background-color 2400ms ease';
+      cell.style.backgroundColor = patternColor(col, row);
+    }, delay);
+  }
+
   panel.addEventListener('mouseover', e => {
     const cell = e.target.closest('.deco-cell');
-    if (cell) {
-      cell.style.transition = 'background-color 0ms';
-      cell.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-    }
+    if (!cell) return;
+    clearTimeout(cell._drift);
+    cell.style.transition = 'background-color 0ms';
+    cell.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
   });
   panel.addEventListener('mouseout', e => {
     const cell = e.target.closest('.deco-cell');
     if (!cell) return;
-    const diag = [...cell.parentElement.parentElement.children].indexOf(cell.parentElement)
-               + [...cell.parentElement.children].indexOf(cell);
-    const original = diag % 4 === 0 ? colors[diag % colors.length] : '';
+    const col = [...cell.parentElement.parentElement.children].indexOf(cell.parentElement);
+    const row = [...cell.parentElement.children].indexOf(cell);
+    // reveal the starting pattern flipped over the x axis and then the y axis
+    // (a 180° rotation): bars hang from the top, column order mirrored
     cell.style.transition = 'background-color 600ms ease';
-    cell.style.backgroundColor = original;
+    cell.style.backgroundColor = patternColor(cols - 1 - col, rows - 1 - row);
+    // after a while, drift back to the original pattern
+    scheduleDrift(cell, col, row, 3500 + Math.random() * 3000);
   });
 })();
 

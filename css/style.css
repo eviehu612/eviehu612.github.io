@@ -119,6 +119,7 @@
 }
 .card {
   position: relative;
+  isolation: isolate;
   display: block;
   background: rgba(255, 255, 255, 0.45);
   backdrop-filter: blur(14px);
@@ -135,6 +136,7 @@
   content: '';
   position: absolute;
   inset: 0;
+  z-index: -1;
   background-image:
     linear-gradient(rgba(226, 232, 240, 0.35) 1px, transparent 1px),
     linear-gradient(90deg, rgba(226, 232, 240, 0.35) 1px, transparent 1px);
@@ -176,6 +178,12 @@
   font-size: 0.83rem;
   color: #6b7280;
   line-height: 1.6;
+}
+.card-date {
+  font-size: 0.72rem;
+  color: #9ca3af;
+  letter-spacing: 0.04em;
+  margin: -6px 0 10px;
 }
 .card-tag {
   display: inline-block;
@@ -234,6 +242,15 @@ a:hover {
   font-family: 'EB Garamond', Georgia, serif;
   font-size: 1.1rem;
   line-height: 1.8;
+}
+
+/* ── Post datelines ── */
+.post-date {
+  font-family: "Andale Mono", monospace;
+  font-size: 0.8rem;
+  color: #6b7280;
+  letter-spacing: 0.04em;
+  margin: -2.6em 0 2.8em;
 }
 html {
   /* keep anchor-scroll targets clear of the sticky nav */
