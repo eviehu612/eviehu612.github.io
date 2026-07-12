@@ -211,6 +211,37 @@
     margin: 0 auto;
     border-radius: 8px;
   }
+  /* ── Websites of cool people ── */
+  .likes-people {
+    margin: 30px 0 38px;
+  }
+  .likes-heading {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin: 0 0 14px;
+  }
+  .likes-people-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .likes-person {
+    font-size: 0.78rem;
+    padding: 5px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    color: #4a4a52;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: transform 220ms ease, box-shadow 300ms ease, border-color 300ms ease;
+  }
+  .likes-person:hover {
+    transform: translateY(-2px);
+    border-color: var(--glow, rgb(186 230 253));
+    box-shadow: 0 4px 14px var(--glow, rgb(186 230 253));
+  }
   /* ── Essays ── */
   .likes-essay {
     display: block;
@@ -234,7 +265,24 @@
 <div class="likes-page">
 
 <h1>Things I Like</h1>
-<p class="section-subtitle">A gallery of poems, paintings, and other misc. content I keep coming back to.</p>
+
+<div class="likes-people">
+  <h2 class="likes-heading">Websites of Cool People I Know</h2>
+  <div class="likes-people-list">
+    <a class="likes-person" href="https://joneedssleep.github.io/" target="_blank" rel="noopener" style="--glow: rgb(186 230 253)">Jo</a>
+    <a class="likes-person" href="https://zephaniahdev.com/" target="_blank" rel="noopener" style="--glow: rgb(251 207 232)">Zephy</a>
+    <a class="likes-person" href="https://sites.google.com/view/lxhcas-chen/home" target="_blank" rel="noopener" style="--glow: rgb(187 247 208)">Lucas</a>
+    <a class="likes-person" href="https://yixiong.dev/" target="_blank" rel="noopener" style="--glow: rgb(254 240 138)">Yixiong</a>
+    <a class="likes-person" href="https://parvmahajan.com/" target="_blank" rel="noopener" style="--glow: rgb(254 202 202)">Parv</a>
+    <a class="likes-person" href="https://helenatran.com/" target="_blank" rel="noopener" style="--glow: rgb(233 213 255)">Helena</a>
+    <a class="likes-person" href="https://aeliyagrover.vercel.app/index.html" target="_blank" rel="noopener" style="--glow: rgb(191 219 254)">Aeliya</a>
+    <a class="likes-person" href="https://jcksanderson.com/" target="_blank" rel="noopener" style="--glow: rgb(199 210 254)">Jack</a>
+    <a class="likes-person" href="https://rociopv.com/" target="_blank" rel="noopener" style="--glow: rgb(221 214 254)">Rocio</a>
+    <a class="likes-person" href="https://coby.lk/" target="_blank" rel="noopener" style="--glow: rgb(253 186 116)">Coby</a>
+  </div>
+</div>
+
+<h2 class="likes-heading">Poems, Paintings, and Other Content</h2>
 
 <div class="likes-gallery">
 
