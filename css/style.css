@@ -12,9 +12,9 @@
 }
 #boxes-grid {
   position: absolute;
-  left: 25%;
-  top: -25%;
-  transform: translate(-40%, -60%) skewX(-48deg) skewY(14deg) scale(0.675) translateZ(0);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) skewX(-48deg) skewY(14deg) scale(0.675) translateZ(0);
   display: flex;
   padding: 16px;
   z-index: 0;
