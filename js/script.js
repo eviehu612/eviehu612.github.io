@@ -36,6 +36,12 @@ window.addEventListener('popstate', () => {
   showTab(location.hash.slice(1) || 'home');
 });
 
+// ── Dark mode toggle (initial theme is applied inline in <head>) ──
+document.getElementById('theme-toggle')?.addEventListener('click', () => {
+  const dark = document.documentElement.classList.toggle('dark');
+  localStorage.setItem('theme', dark ? 'dark' : 'light');
+});
+
 showTab(location.hash.slice(1) || 'home');
 
 // ── About page decorative grid ──

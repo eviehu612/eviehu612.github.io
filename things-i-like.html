@@ -19,18 +19,21 @@
   .likes-item {
     break-inside: avoid;
     margin: 0 0 20px;
-    background: rgba(255, 255, 255, 0.45);
+    background: var(--surface);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(226, 232, 240, 0.9);
+    border: 1px solid var(--border);
     border-radius: 16px;
     overflow: hidden;
     transition: transform 220ms ease, box-shadow 300ms ease, border-color 300ms ease;
   }
   .likes-item:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 32px var(--glow, rgb(186 230 253)), 0 2px 8px rgba(0,0,0,0.04);
+    box-shadow: 0 8px 32px var(--glow, rgb(186 230 253)), 0 2px 8px var(--shadow);
     border-color: var(--glow, rgb(186 230 253));
+  }
+  html.dark .likes-item:hover {
+    box-shadow: 0 8px 32px -8px var(--glow, rgb(186 230 253)), 0 2px 8px var(--shadow);
   }
   .likes-art {
     padding: 14px;
@@ -49,19 +52,19 @@
     font-family: 'EB Garamond', Georgia, serif;
     font-style: italic;
     font-size: 1.05rem;
-    color: #4a4a52;
+    color: var(--text);
   }
   .likes-artist {
     display: block;
     margin-top: 4px;
     font-size: 0.72rem;
-    color: #6b7280;
+    color: var(--muted);
     letter-spacing: 0.04em;
   }
   .likes-poem {
     padding: 22px 24px 18px;
     font-family: 'EB Garamond', Georgia, serif;
-    color: #4a4a52;
+    color: var(--text);
   }
   .likes-poem h2 {
     font-family: 'EB Garamond', Georgia, serif;
@@ -69,7 +72,7 @@
     font-weight: 400;
     font-style: italic;
     margin: 0 0 0.8em;
-    color: #6b7280;
+    color: var(--muted);
   }
   .likes-poem-text {
     font-size: 1rem;
@@ -85,14 +88,14 @@
     display: block;
     padding: 22px 24px 18px;
     text-decoration: none;
-    color: #4a4a52;
+    color: var(--text);
   }
   .likes-song-arrow {
     position: absolute;
     top: 14px;
     right: 18px;
     font-size: 15px;
-    color: #e2e8f0;
+    color: var(--border);
     font-family: "Andale Mono", monospace;
     transition: color 300ms ease;
   }
@@ -177,8 +180,8 @@
     width: 54px;
     height: 54px;
     border-radius: 999px;
-    background: rgba(250, 249, 245, 0.88);
-    border: 1px solid rgba(226, 232, 240, 0.9);
+    background: var(--nav-bg);
+    border: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -188,7 +191,7 @@
     content: '';
     width: 0;
     height: 0;
-    border-left: 15px solid #4a4a52;
+    border-left: 15px solid var(--text);
     border-top: 9px solid transparent;
     border-bottom: 9px solid transparent;
     margin-left: 4px;
@@ -230,9 +233,9 @@
     font-size: 0.78rem;
     padding: 5px 14px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.6);
-    border: 1px solid rgba(226, 232, 240, 0.9);
-    color: #4a4a52;
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    color: var(--text);
     text-decoration: none;
     letter-spacing: 0.04em;
     transition: transform 220ms ease, box-shadow 300ms ease, border-color 300ms ease;
@@ -256,7 +259,7 @@
     margin-top: 12px;
     font-family: "Andale Mono", monospace;
     font-size: 0.72rem;
-    color: #6b7280;
+    color: var(--muted);
     letter-spacing: 0.04em;
     transition: color 300ms ease;
   }
