@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Evie Hu's Website</title>
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
   <link rel="icon" type="image/png" href="images/new_flavicon.png">
   <script>
     // apply the saved (or system-preferred) theme before first paint
@@ -23,6 +24,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" />
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script defer src="js/projects.js"></script>
   <script defer src="js/script.js"></script>
 </head>
 <body>
@@ -66,16 +68,18 @@
   </div>
 
   <div id="blog" class="tab">
-    <div id="blog-deco" aria-hidden="true"></div>
+    <canvas id="blog-deco" aria-hidden="true"></canvas>
     <h1>Writing</h1>
+    <p class="blog-intro">You can also find me on <a href="https://www.lesswrong.com/users/evhu" target="_blank" rel="noopener">LessWrong</a>.</p>
     <ul class="post-list">
+      <li><a href="https://www.lesswrong.com/posts/5guQJSqstkjgys3PE/deep-recurrent-models-are-less-robustly-cot-monitorable-than" target="_blank" rel="noopener"><span class="post-title">Deep recurrent models are less robustly CoT-monitorable than normal CoT models in a toy setting</span><time datetime="2026-09-18">September 18th, 2026</time></a></li>
       <li><a href="#post-rapid-upskilling"><span class="post-title">Rapid Upskilling</span><time datetime="2026-07-15">July 15th, 2026</time></a></li>
       <li><a href="#post-model-organisms"><span class="post-title">Model Organisms and the Capabilities Curve</span><time datetime="2026-05-14">May 14th, 2026</time></a></li>
       <li><a href="#post-safety-opportunities"><span class="post-title">Fragile Opportunities for Safety</span><time datetime="2026-05-10">May 10th, 2026</time></a></li>
       <li><a href="#post-welcome-to-blog"><span class="post-title">What I Write For</span><time datetime="2026-04-23">April 23rd, 2026</time></a></li>
       <li><a href="#post-platos-dilemma"><span class="post-title">Plato's Dilemma of Fiction</span><time datetime="2025-12-11">December 11th, 2025</time></a></li>
     </ul>
-    <span class="blog-deco-hint">(click anywhere)</span>
+    <span class="blog-deco-hint">(brian's brain &middot; click anywhere to seed &middot; <button type="button" id="blog-deco-toggle" aria-pressed="false">pause</button>)</span>
   </div>
 
   <div id="post-interests" class="tab" data-src="blogs/interests.html"></div>
@@ -110,11 +114,6 @@
         <p>A couple of pieces I've made.</p>
         <span class="card-tag">art</span>
       </a>
-      <a href="#project-language" class="card" style="--glow: #114B5F">
-        <h2>Language Classification</h2>
-        <p>Recurrent neural network for identifying the language of a given text sample.</p>
-        <span class="card-tag">ML</span>
-      </a>
       <a href="#project-handwriting" class="card" style="--glow: #574B60">
         <h2>Handwriting Classification</h2>
         <p>Convolutional neural network classifying handwritten digits from the MNIST dataset.</p>
@@ -136,8 +135,6 @@
   <div id="project-astro" class="tab" data-src="projects/astro.html"></div>
 
   <div id="project-handwriting" class="tab" data-src="projects/handwriting.html"></div>
-
-  <div id="project-language" class="tab" data-src="projects/language.html"></div>
 
   <div id="project-trie" class="tab" data-src="projects/trie.html"></div>
 

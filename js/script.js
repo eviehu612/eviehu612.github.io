@@ -125,6 +125,8 @@ function showTab(name) {
         el.querySelectorAll('h1, .likes-heading').forEach(wrapWords);
         decipherHeaders(el);
         if (window.Prism) el.querySelectorAll('pre code').forEach(c => Prism.highlightElement(c));
+        // interactive project demos live in projects.js
+        if (window.projectInits && window.projectInits[name]) window.projectInits[name](el);
       })
       .catch(err => console.error('Error loading content:', err));
   }
@@ -277,85 +279,143 @@ showTab(location.hash.slice(1) || 'home');
   });
 })();
 
-// ── Writing page: click anywhere and pixels bloom out of the page itself ──
+// ── Writing page: a very slow Brian's Brain drifts behind the post list ──
+// Three states per cell: off, on, dying. An off cell switches on when exactly
+// two of its eight neighbours are on; on cells always become dying; dying
+// cells always switch off. The grid wraps at the edges.
 (function initBlogDeco() {
   const tab = document.getElementById('blog');
-  const layer = document.getElementById('blog-deco');
-  if (!tab || !layer) return;
+  const canvas = document.getElementById('blog-deco');
+  const toggle = document.getElementById('blog-deco-toggle');
+  if (!tab || !canvas || !toggle) return;
 
+  const ctx = canvas.getContext('2d');
   const colors = ['#7798AB', '#C3DBC5', '#FF8484', '#114B5F', '#574B60'];
-  const cellSize = 22, RADIUS = 5;
-  const TICK = rxReduced ? 0 : 110;
-  let cols = 0, rows = 0, burst = 0;
+  const CELL = 16;        // px per cell
+  const GEN_MS = 1400;    // one generation every 1.4s — glacial on purpose
+  const OFF = 0, ON = 1, DYING = 2;
 
-  function build() {
-    let html = '';
-    for (let c = 0; c < cols; c++) {
-      html += '<div class="bloom-col">';
-      for (let r = 0; r < rows; r++) html += '<div class="bloom-cell"></div>';
-      html += '</div>';
-    }
-    layer.innerHTML = html;
-  }
+  let cols = 0, rows = 0;
+  let state = new Uint8Array(0), next = new Uint8Array(0);
+  let hue = new Uint8Array(0), nextHue = new Uint8Array(0);
+  let timer = null;
 
-  // resolve the cell at fire time — the grid may have been rebuilt (resize,
-  // font reflow) between scheduling and painting
-  function cellAt(c, r) {
-    return layer.children[c] && layer.children[c].children[r];
-  }
-  function paint(c, r, color, id, delay) {
-    setTimeout(() => {
-      const cell = cellAt(c, r);
-      if (!cell) return;
-      cell._burst = id;
-      cell.style.backgroundColor = color;
-    }, delay);
-    setTimeout(() => {
-      const cell = cellAt(c, r);
-      // don't wipe cells a newer bloom has repainted
-      if (cell && cell._burst === id) cell.style.backgroundColor = '';
-    }, delay + 420);
-  }
+  // remember the visitor's choice; reduced-motion users start paused
+  let running;
+  try { running = localStorage.getItem('brain') !== 'paused' && !rxReduced; }
+  catch (e) { running = !rxReduced; }
 
-  // pixel bloom: rings spread gently out from the origin in discrete ticks,
-  // one accent color per click, with a trailing edge that clears behind them
-  function bloom(col, row) {
-    const id = ++burst;
-    const color = colors[id % colors.length];
-    for (let d = 0; d <= RADIUS; d++) {
-      for (let dc = -d; dc <= d; dc++) {
-        const dr = d - Math.abs(dc);
-        paint(col + dc, row + dr, color, id, d * TICK);
-        if (dr) paint(col + dc, row - dr, color, id, d * TICK);
+  function seed(cx, cy, radius, density) {
+    for (let r = cy - radius; r <= cy + radius; r++) {
+      for (let c = cx - radius; c <= cx + radius; c++) {
+        if (Math.random() > density) continue;
+        const i = ((r + rows) % rows) * cols + ((c + cols) % cols);
+        state[i] = ON;
+        hue[i] = Math.floor(Math.random() * colors.length);
       }
     }
   }
 
-  // size the backdrop to the tab; it is display:none at load, so the
-  // observer builds it once the tab first becomes visible
-  let greeted = false;
+  function step() {
+    for (let r = 0; r < rows; r++) {
+      const up = ((r - 1 + rows) % rows) * cols;
+      const mid = r * cols;
+      const dn = ((r + 1) % rows) * cols;
+      for (let c = 0; c < cols; c++) {
+        const i = mid + c;
+        const s = state[i];
+        if (s === ON) { next[i] = DYING; nextHue[i] = hue[i]; continue; }
+        if (s === DYING) { next[i] = OFF; nextHue[i] = hue[i]; continue; }
+        const l = (c - 1 + cols) % cols, rt = (c + 1) % cols;
+        let n = 0, mix = -1;
+        const look = j => { if (state[j] === ON) { n++; mix = hue[j]; } };
+        look(up + l); look(up + c); look(up + rt);
+        look(mid + l); look(mid + rt);
+        look(dn + l); look(dn + c); look(dn + rt);
+        if (n === 2) {
+          next[i] = ON;
+          // mostly inherit a parent's colour, occasionally mutate
+          nextHue[i] = Math.random() < 0.9 ? mix : Math.floor(Math.random() * colors.length);
+        } else {
+          next[i] = OFF; nextHue[i] = hue[i];
+        }
+      }
+    }
+    [state, next] = [next, state];
+    [hue, nextHue] = [nextHue, hue];
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const i = r * cols + c;
+        if (state[i] === OFF) continue;
+        ctx.globalAlpha = state[i] === ON ? 1 : 0.35;
+        ctx.fillStyle = colors[hue[i]];
+        ctx.fillRect(c * CELL, r * CELL, CELL - 1, CELL - 1);
+      }
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function tick() {
+    // the tab is display:none when not selected; don't burn cycles offscreen
+    if (document.hidden || canvas.offsetWidth === 0) return;
+    step();
+    draw();
+  }
+
+  function setRunning(on) {
+    running = on;
+    toggle.textContent = on ? 'pause' : 'play';
+    toggle.setAttribute('aria-pressed', String(!on));
+    clearInterval(timer);
+    timer = on ? setInterval(tick, GEN_MS) : null;
+    try { localStorage.setItem('brain', on ? 'running' : 'paused'); } catch (e) {}
+  }
+
+  // size the canvas to the tab; it is display:none at load, so the observer
+  // builds the grid once the tab first becomes visible
+  let seeded = false;
   function sync() {
-    const c = Math.ceil(layer.offsetWidth / cellSize);
-    const r = Math.ceil(layer.offsetHeight / cellSize);
-    if (c > 0 && r > 0 && (c !== cols || r !== rows)) {
-      cols = c;
-      rows = r;
-      build();
-      if (!greeted) {
-        greeted = true;
-        // a little hello-bloom the first time the tab opens
-        setTimeout(() => bloom(Math.floor(cols * 0.6), Math.floor(rows / 2)), 400);
+    const c = Math.ceil(canvas.offsetWidth / CELL);
+    const r = Math.ceil(canvas.offsetHeight / CELL);
+    if (c <= 0 || r <= 0 || (c === cols && r === rows)) return;
+    const old = { state, hue, cols, rows };
+    cols = c; rows = r;
+    canvas.width = cols * CELL;
+    canvas.height = rows * CELL;
+    state = new Uint8Array(cols * rows); next = new Uint8Array(cols * rows);
+    hue = new Uint8Array(cols * rows); nextHue = new Uint8Array(cols * rows);
+    // carry what fits across a resize instead of restarting
+    for (let rr = 0; rr < Math.min(rows, old.rows); rr++) {
+      for (let cc = 0; cc < Math.min(cols, old.cols); cc++) {
+        state[rr * cols + cc] = old.state[rr * old.cols + cc];
+        hue[rr * cols + cc] = old.hue[rr * old.cols + cc];
       }
     }
+    if (!seeded) {
+      seeded = true;
+      seed(Math.floor(cols * 0.65), Math.floor(rows * 0.4), 4, 0.5);
+      seed(Math.floor(cols * 0.85), Math.floor(rows * 0.75), 3, 0.5);
+      seed(Math.floor(cols * 0.3), Math.floor(rows * 0.8), 3, 0.5);
+    }
+    draw();
   }
-  new ResizeObserver(sync).observe(layer);
+  new ResizeObserver(sync).observe(canvas);
   sync();
 
+  toggle.addEventListener('click', () => setRunning(!running));
+  setRunning(running);
+
+  // click anywhere to drop a fresh cluster of live cells
   tab.addEventListener('click', e => {
-    if (e.target.closest('a')) return;
-    const rect = layer.getBoundingClientRect();
-    bloom(Math.floor((e.clientX - rect.left) / cellSize),
-          Math.floor((e.clientY - rect.top) / cellSize));
+    if (e.target.closest('a, button')) return;
+    const rect = canvas.getBoundingClientRect();
+    seed(Math.floor((e.clientX - rect.left) / CELL),
+         Math.floor((e.clientY - rect.top) / CELL), 3, 0.5);
+    draw();
   });
 })();
 

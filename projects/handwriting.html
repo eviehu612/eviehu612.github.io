@@ -1,5 +1,40 @@
 <h1>Handwriting Classification</h1>
-<p>A project using convolutional neural networks to classify handwritten digits from the MNIST dataset.</p>
+<p>A convolutional neural network that classifies handwritten digits from the MNIST dataset. Draw a digit below and watch it move through the network: the 28×28 input the model sees, the feature maps each convolutional layer lights up, and the final probabilities for each digit.</p>
+
+<div class="hw-demo" id="hw-demo">
+  <div class="hw-stage">
+    <div class="hw-col hw-col-pad">
+      <span class="hw-label">draw a digit</span>
+      <canvas id="hw-pad" aria-label="drawing pad"></canvas>
+      <div class="hw-pad-row">
+        <button type="button" id="hw-clear" class="hw-btn">clear</button>
+        <span id="hw-status" class="hw-status"></span>
+      </div>
+    </div>
+    <div class="hw-col hw-col-net">
+      <div class="hw-layer">
+        <span class="hw-label">input · 28×28</span>
+        <canvas id="hw-input" class="hw-grid"></canvas>
+      </div>
+      <div class="hw-layer">
+        <span class="hw-label">conv 1 · 8 maps · 14×14</span>
+        <div id="hw-maps1" class="hw-maps"></div>
+      </div>
+      <div class="hw-layer">
+        <span class="hw-label">conv 2 · 16 maps · 7×7</span>
+        <div id="hw-maps2" class="hw-maps"></div>
+      </div>
+    </div>
+    <div class="hw-col hw-col-out">
+      <span class="hw-label">output</span>
+      <div class="hw-verdict" id="hw-verdict"></div>
+      <div class="hw-bars" id="hw-bars"></div>
+    </div>
+  </div>
+</div>
+
+<p class="hw-note">The model running in your browser is a small cousin of the one below: two 3×3 convolutions (8 and 16 filters) with max pooling, then a single linear layer. It was trained for four epochs with light random rotation, shift, and shear so it copes with mouse handwriting, and scores 98.4% on the MNIST test set. Your drawing is cropped, scaled to 20 pixels, and centred by its centre of mass, which is how the MNIST digits were prepared.</p>
+
 <p>There's a version of this with some more convolutional layers and feature maps. Unfortunately I may have accidentally deleted this; will update if I find it or decide to redo it (no promises).</p>
 <p>First demonstrated by Geoffrey Hinton @ Google in 2007; "The Next Generation of Neural Networks".</p>
 <div class="image-container">

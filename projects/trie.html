@@ -1,5 +1,30 @@
 <h1>TrieSpeller</h1>
-<p>A simple project using tries to make a spell-checker.</p>
+<p>A spell-checker built on a trie: one tree per starting letter, one node per character, so checking a word or finding every completion of a prefix is a single walk down the tree.</p>
+
+<div class="trie-demo" id="trie-demo">
+  <div class="trie-controls">
+    <label class="trie-field">
+      <span>type a prefix</span>
+      <input id="trie-input" type="text" autocomplete="off" spellcheck="false" maxlength="24" placeholder="tri">
+    </label>
+    <label class="trie-field">
+      <span>add a word</span>
+      <input id="trie-add" type="text" autocomplete="off" spellcheck="false" maxlength="24" placeholder="press enter">
+    </label>
+  </div>
+  <div class="trie-stats">
+    <span><b id="trie-is-word">–</b> is_word</span>
+    <span><b id="trie-num-starting">0</b> num_starting</span>
+    <span><b id="trie-num-next">0</b> num_next</span>
+    <span><b id="trie-num-words">0</b> num_words</span>
+  </div>
+  <div class="trie-canvas-wrap">
+    <svg id="trie-svg" aria-label="trie diagram"></svg>
+  </div>
+  <div class="trie-completions" id="trie-completions"></div>
+  <p class="trie-hint">The highlighted path is your prefix. Below it is every branch the trie still holds, and the dots mark where a word ends.</p>
+</div>
+
 <pre><code class="language-python">class Trie:
   def __init__(self, root):
     self.root = root

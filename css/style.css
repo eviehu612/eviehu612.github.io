@@ -295,25 +295,32 @@ html.dark {
 #blog a {
   cursor: pointer;
 }
-/* clicks anywhere on the page bloom pixels out of this backdrop layer —
+/* a slow Brian's Brain automaton drifts across this backdrop canvas —
    see initBlogDeco in script.js */
 #blog-deco {
   position: absolute;
   inset: 0;
   z-index: 0;
-  display: flex;
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
   opacity: 0.5;
   pointer-events: none;
 }
-#blog-deco .bloom-col {
-  display: flex;
-  flex-direction: column;
+#blog-deco-toggle {
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--faint);
 }
-#blog-deco .bloom-cell {
-  width: 22px;
-  height: 22px;
-  flex-shrink: 0;
+#blog-deco-toggle:hover {
+  color: var(--text);
 }
 #blog > :not(#blog-deco) {
   position: relative;
@@ -324,6 +331,17 @@ html.dark {
   margin: 28px 0 0;
   padding: 0;
   max-width: 640px;
+}
+.blog-intro {
+  margin: 10px 0 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.blog-intro a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--faint);
 }
 .blog-deco-hint {
   display: block;
@@ -418,6 +436,268 @@ a:hover {
   font-family: 'EB Garamond', Georgia, serif;
   font-size: 1.1rem;
   line-height: 1.8;
+}
+
+/* ── Project demos (see js/projects.js) ── */
+.demo-label,
+.hw-label,
+.trie-field span,
+.trie-stats {
+  font-family: "Andale Mono", monospace;
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+
+/* TrieSpeller */
+.trie-demo {
+  margin: 20px 0 28px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.trie-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 28px;
+}
+.trie-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.trie-field input {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 1.25rem;
+  width: 180px;
+  max-width: 100%;
+  padding: 6px 8px;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border-soft);
+  border-radius: 0;
+  outline: none;
+}
+.trie-field input:focus {
+  border-color: #7798AB;
+}
+.trie-field input.shake {
+  border-color: #FF8484;
+  animation: trie-shake 0.4s ease;
+}
+@keyframes trie-shake {
+  25% { transform: translateX(-3px); }
+  50% { transform: translateX(3px); }
+  75% { transform: translateX(-2px); }
+}
+.trie-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin: 16px 0 6px;
+}
+.trie-stats b {
+  font-weight: 400;
+  color: var(--text);
+}
+.trie-stats b.ok { color: #7798AB; }
+.trie-stats b.no { color: #FF8484; }
+.trie-canvas-wrap {
+  overflow-x: auto;
+  margin: 8px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.trie-canvas-wrap svg {
+  display: block;
+  font-family: 'EB Garamond', Georgia, serif;
+}
+.trie-node text {
+  pointer-events: none;
+  user-select: none;
+}
+.trie-node:hover circle:first-child {
+  stroke: #7798AB;
+  stroke-width: 2;
+}
+.trie-completions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+  min-height: 28px;
+}
+.trie-chip {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 0.95rem;
+  color: var(--text);
+  background: var(--tag-bg);
+  border: 1px solid var(--border);
+  padding: 2px 9px;
+  cursor: pointer;
+  transition: border-color 150ms ease, background-color 150ms ease;
+}
+.trie-chip:hover {
+  border-color: #7798AB;
+  background: var(--surface-hover);
+}
+.trie-chip-prefix {
+  color: #7798AB;
+}
+.trie-more {
+  font-family: "Andale Mono", monospace;
+  font-size: 0.72rem;
+  color: var(--faint);
+  align-self: center;
+}
+[id^="project-"] p.trie-hint,
+[id^="project-"] p.hw-note {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--muted);
+  margin: 14px 0 0;
+}
+[id^="project-"] p.hw-note {
+  margin: 0 0 20px;
+}
+
+/* Handwriting */
+.hw-demo {
+  margin: 20px 0 16px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.hw-stage {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 36px;
+  align-items: flex-start;
+}
+.hw-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.hw-col-net {
+  gap: 14px;
+  flex: 1 1 260px;
+  min-width: 0;
+}
+.hw-layer {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+#hw-pad {
+  width: 220px;
+  height: 220px;
+  max-width: 100%;
+  background: var(--code-bg);
+  border: 1px solid var(--border-soft);
+  cursor: crosshair;
+  touch-action: none;
+}
+.hw-pad-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.hw-btn {
+  font-family: "Andale Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--border-soft);
+  padding: 4px 12px;
+  cursor: pointer;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+.hw-btn:hover {
+  color: var(--text);
+  border-color: #7798AB;
+}
+.hw-status {
+  font-family: "Andale Mono", monospace;
+  font-size: 0.72rem;
+  color: var(--faint);
+  letter-spacing: 0.04em;
+}
+.hw-grid {
+  width: 112px;
+  height: 112px;
+  image-rendering: pixelated;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+}
+.hw-maps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 42px;
+}
+.hw-maps canvas {
+  width: 42px;
+  height: 42px;
+  image-rendering: pixelated;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+}
+.hw-col-out {
+  min-width: 190px;
+}
+.hw-verdict {
+  font-family: 'Redaction', 'EB Garamond', Georgia, serif;
+  font-size: 4.2rem;
+  line-height: 1;
+  min-height: 1em;
+  color: var(--text);
+}
+.hw-verdict.sure { color: #7798AB; }
+.hw-verdict.hmm { color: #574B60; }
+html.dark .hw-verdict.hmm { color: #C3DBC5; }
+.hw-verdict.unsure { color: #FF8484; }
+.hw-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 110px;
+}
+.hw-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 14px;
+  height: 100%;
+}
+.hw-bar-track {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+}
+.hw-bar-fill {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 0;
+  background: var(--faint);
+  transition: height 180ms ease;
+}
+.hw-bar.best .hw-bar-fill {
+  background: #7798AB;
+}
+.hw-bar span {
+  font-family: "Andale Mono", monospace;
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+.hw-bar.best span {
+  color: var(--text);
 }
 
 /* ── Post datelines ── */
