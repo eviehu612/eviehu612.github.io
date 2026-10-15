@@ -100,7 +100,11 @@ function shuffleChildren(el) {
   kids.forEach(k => el.appendChild(k));
 }
 
+// old anchors that still circulate in links
+const tabAliases = { 'things-i-like': 'miscellany' };
+
 function showTab(name) {
+  name = tabAliases[name] || name;
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   const el = document.getElementById(name);
   if (!el) return;
