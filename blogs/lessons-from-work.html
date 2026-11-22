@@ -1,0 +1,144 @@
+<style>
+  .blog-post {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 12px 20px 40px;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 1.15rem;
+    line-height: 1.85;
+    color: var(--text);
+  }
+  .blog-post h1 {
+    font-family: 'Redaction', 'EB Garamond', Georgia, serif;
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 1.4em;
+  }
+  .blog-post h2 {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    font-style: italic;
+    margin: 2.2em 0 0.8em;
+    color: var(--muted);
+  }
+  .blog-post p {
+    margin-bottom: 1.3em;
+  }
+  .blog-post ol {
+    margin: 0.5em 0 1.3em 1.4em;
+    padding: 0;
+  }
+  .blog-post ol li {
+    margin-bottom: 0.7em;
+    line-height: 1.75;
+  }
+  .blog-post ol ol {
+    margin: 0.5em 0 0.4em 1.4em;
+    font-size: 0.97em;
+  }
+  .blog-post ol ol li {
+    margin-bottom: 0.45em;
+  }
+  .blog-post ol ol ol {
+    color: var(--muted);
+  }
+  .blog-post sup {
+    font-size: 0.7em;
+    line-height: 0;
+  }
+  .blog-post sup a {
+    text-decoration: none;
+  }
+  .blog-post .footnotes {
+    margin-top: 3em;
+    padding-top: 1.2em;
+    border-top: 1px solid var(--border-soft);
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+  .blog-post .footnotes p {
+    margin-bottom: 0.8em;
+  }
+</style>
+
+<div class="blog-post">
+
+<h1>Lessons from work</h1>
+<div class="post-date"><time datetime="2026-10-19">October 19th, 2026</time></div>
+
+<p>I’m about halfway through my internship at RW! I find the people I work around to be incredibly intelligent and thoughtful, and I’ve learned so much from them. Here are some meta-level things about good work practices:</p>
+
+<h2>Deciding what to work on</h2>
+
+<ol>
+  <li>Don’t be afraid to quit something to work on something higher leverage, but be mindful of your time. If what is important changes often, and you are constantly pivoting, you won’t finish anything.
+    <ol type="a">
+      <li>As an intern, sometimes it’s hard to judge what’s high-leverage. Ask your manager before moving to work on something.</li>
+      <li>Low-effort vs. high-effort questions. Some questions are low effort and people are trying to put work on you.<sup><a id="fnref1" href="#fn1">1</a></sup></li>
+      <li>Low-effort questions deserve low-effort answers. Low effort doesn’t necessarily mean vague. Sometimes Buck asks “What should we do?” This is a high-effort question because he’ll actually engage in debate with you about the idea, and it has a ton of impact / importance as it has a ton of downstream effects depending on what the answer is.</li>
+      <li>This doesn’t apply to requests from people you’re reporting to, like your manager or even a colleague you’re collaborating with on a project.</li>
+    </ol>
+  </li>
+  <li>Fail fast. If you can spend 30 mins de-risking a project, spend the time doing that.
+    <ol type="a">
+      <li>In an ideal world you either quit early or commit to finishing.</li>
+      <li>Get feedback as much as you can.</li>
+      <li>Project proposals and drafts are cheap to make and super valuable for having something concrete for others to engage with and criticize.</li>
+    </ol>
+  </li>
+  <li>Focus on your main project and finish it. This is usually a bigger project that you’re working on for more weeks. Consider this work protected from any pivots. I think Buck has said before that it’s a nice signal someone should be hired if they can point to a great project and say “look I did that.”
+    <ol type="a">
+      <li>Finishing a project is really hard and you have to make it your main priority.</li>
+      <li>Finishing a project doesn’t mean publishing a paper or posting on LessWrong, it means producing something of value. A proxy for this is making your manager and upper managers happy (although no one at RW is very score-seeking on this).
+        <ol type="i">
+          <li>For example, you could do a bunch of work on diffuse control, and none of it leads to something that could be a paper, but you have a lot more clarity on the situation and it leads you to an idea that is much more promising. That was good, useful work.</li>
+        </ol>
+      </li>
+      <li>Most of the essential technical work is in anticipating problems and creating fallback plans.</li>
+      <li>Scale back your implementation work as you approach finishing a project so you’re free to jump on last-minute problems.</li>
+    </ol>
+  </li>
+</ol>
+
+<h2>Important skills</h2>
+
+<ol>
+  <li>Breadth is valuable as a complement to one area where you’re clearly better than the people around you.<sup><a id="fnref2" href="#fn2">2</a></sup>
+    <ol type="a">
+      <li>RW pivots a lot in what it prioritizes. It’s valuable if you can contribute to different projects across empirical vs. analytical vs. conceptual research to a reasonable degree if needed.</li>
+      <li>Take instances where you don’t know something as an opportunity to demonstrate that you can learn things quickly.</li>
+    </ol>
+  </li>
+  <li>Know how to fight ambiguity.
+    <ol type="a">
+      <li>This is maybe the most important skill for working at RW. It’s how you turn random thoughts into great outputs.</li>
+      <li>To succeed in self-driven work, you need to either come with an idea or come with a question.</li>
+      <li>To keep momentum on your project, remember what’s important about your project, and figure out what to do next, I’ve found it’s helpful to ask yourself, “What would I need to do on this project to get it done this very second / if I had to put this out into the world in 5 minutes what would I do?”</li>
+      <li>I’ve found for technical research projects, eureka moments don’t really happen, only extremely empirical experimentation.</li>
+    </ol>
+  </li>
+  <li>Communication is everything.
+    <ol type="a">
+      <li>You will not have outputs if people don’t trust you, and trust is based on communication.
+        <ol type="i">
+          <li>When you’re heads down on a project, you know more about the details of what’s going on than the person managing you. You need your manager to trust you in order to finish the project / publish.</li>
+          <li>Honest updates &gt; frequent updates. Don’t delay in saying “this isn’t working, here’s what I’m doing about it.”</li>
+          <li>Have courage in disagreeing with people you find impressive!</li>
+        </ol>
+      </li>
+      <li>Clear communication is so important. Motivate your ideas with what the problem or central question is. Make the simplest statement that still lets the listener make the right decision.</li>
+      <li>Approach every interaction with transparency and openness.</li>
+      <li>Take note of every interaction to build connection.</li>
+    </ol>
+  </li>
+</ol>
+
+<div class="footnotes">
+  <p id="fn1"><sup>1</sup> This probably just comes from there being a lot to be done, not any sort of malintent! <a href="#fnref1">↩</a></p>
+  <p id="fn2"><sup>2</sup> In establishing this “one area,” don’t think too hard about it. It should be whatever you demonstrate via your main project. <a href="#fnref2">↩</a></p>
+</div>
+
+<p><a href="#blog">← Back to Writing</a></p>
+
+</div>

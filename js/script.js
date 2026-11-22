@@ -105,10 +105,14 @@ const tabAliases = { 'things-i-like': 'miscellany' };
 
 function showTab(name) {
   name = tabAliases[name] || name;
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  const el = document.getElementById(name);
+  // an in-page anchor (a footnote, say) opens the tab that contains it
+  const anchor = document.getElementById(name);
+  const el = anchor && anchor.closest('.tab');
   if (!el) return;
+  name = el.id;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
+  if (anchor !== el) requestAnimationFrame(() => anchor.scrollIntoView());
   if (name === 'about') decipherAbout();
   else if (el.innerHTML.trim() !== '' || !el.getAttribute('data-src')) decipherHeaders(el);
 
@@ -141,6 +145,8 @@ document.addEventListener('click', e => {
   if (!a) return;
   const name = a.getAttribute('href').slice(1);
   if (!name) return;
+  const target = document.getElementById(tabAliases[name] || name);
+  if (target && !target.classList.contains('tab')) return;   // plain scroll anchor
   e.preventDefault();
   history.pushState(null, '', '#' + name);
   showTab(name);
